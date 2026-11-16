@@ -1,17 +1,25 @@
 # Fundamentos de Coctelería · UBU
 
-Repositorio público preparado para GitHub Pages: **HTML cifrado**, sin archivos fuente en claro.
+Versión publicada para GitHub Pages con:
 
-- `index.html`: puerta de acceso y presentación interactiva de 35 diapositivas con sus imágenes, esquemas, PDF de fichas y controles integrados.
-- `galeria.html`: puerta de acceso y galería con miniaturas autocontenidas. Sus enlaces abren la presentación en la diapositiva seleccionada.
-- `.nojekyll`: desactiva Jekyll en GitHub Pages.
+- **nuevo login visual** basado en la propuesta elegida por el docente;
+- **presentación interactiva cifrada**;
+- **galería cifrada** con 35 miniaturas;
+- **animaciones de diapositivas reactivadas por defecto**.
 
-**Publicación:** en GitHub → Settings → Pages → Build and deployment → Deploy from a branch → `main` → `/(root)` → Save.
+## Publicación
 
-**Dirección prevista:** https://kerlypt05.github.io/Cocteleria/
+Sube a la raíz del repositorio estos archivos:
 
-**Acceso:** clave distribuida mediante el canal docente. No la guardes en el repositorio ni en su historial de commits. Las páginas usan AES-256-GCM y PBKDF2-SHA256 con 600 000 iteraciones. La contraseña no se almacena en el repositorio. La sesión solo utiliza sessionStorage del navegador, que puede permanecer abierto durante toda la sesión de la pestaña.
+- `index.html`
+- `galeria.html`
+- `.nojekyll`
+- `README.md`
 
-**Limitación:** es cifrado de material estático, no autenticación individual ni control de permisos, y quien conozca la clave puede obtener una copia del material. Para impedir la redistribución, revocar usuarios o restringir por cuenta se requiere servidor de autenticación/proxy y acceso privado a los contenidos.
+Después activa GitHub Pages desde `Settings → Pages → Deploy from a branch → main → /(root)`.
 
-**Mantenimiento:** conserva los archivos editables originales **fuera** del repositorio público. Para actualizar el material hay que reconstruir los HTML y volverlos a cifrar con la herramienta local. No publiques las fuentes sin cifrar junto a estas páginas.
+## Nota técnica sobre las animaciones
+
+La presentación original incluía una lógica de accesibilidad que desactivaba el movimiento si el navegador o el sistema operativo informaban `prefers-reduced-motion: reduce`, o si se había guardado la preferencia local `cocteleria-movimiento = no`.
+
+En esta versión **las animaciones quedan activas por defecto** para conservar las transiciones de gráficos, esquemas y cambios de escena. Solo se desactivarán si el usuario las apaga explícitamente desde la propia presentación.
