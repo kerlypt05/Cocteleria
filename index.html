@@ -26,14 +26,13 @@
 }
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
 html,body{margin:0;padding:0;height:100%}
 body{
   min-height:100vh;min-height:100svh;
   font-family:ui-sans-serif,-apple-system,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
   color:var(--txt);
   background:var(--bg);
-  overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
 }
 
@@ -43,10 +42,11 @@ body{
 .bg::after{/* velo de contraste */
   content:'';position:absolute;inset:0;
   background:
-    radial-gradient(58% 86% at 65% 50%,rgba(6,4,3,.82) 0%,rgba(6,4,3,.62) 48%,rgba(6,4,3,.22) 78%,transparent 100%),
-    linear-gradient(90deg,rgba(8,5,4,.46) 0%,rgba(8,5,4,.08) 26%,transparent 46%),
-    linear-gradient(0deg,rgba(7,4,3,.58) 0%,transparent 34%),
-    radial-gradient(140% 112% at 22% 44%,transparent 40%,rgba(0,0,0,.42) 100%);
+    radial-gradient(34% 74% at 60% 50%,rgba(6,4,3,.72) 0%,rgba(6,4,3,.46) 54%,transparent 100%),
+    linear-gradient(90deg,rgba(8,5,4,.40) 0%,rgba(8,5,4,.06) 24%,transparent 42%),
+    linear-gradient(270deg,rgba(8,5,4,.34) 0%,transparent 22%),
+    linear-gradient(0deg,rgba(7,4,3,.50) 0%,transparent 30%),
+    radial-gradient(140% 118% at 50% 46%,transparent 52%,rgba(0,0,0,.40) 100%);
 }
 .hero{
   position:absolute;inset:0;width:100%;height:100%;
@@ -62,15 +62,15 @@ body{
 /* ---------- tarjeta ---------- */
 .shell{
   position:relative;z-index:2;
-  display:grid;grid-template-columns:1fr auto;align-items:center;justify-items:end;
+  display:grid;grid-template-columns:minmax(0,72%) minmax(0,1fr);align-items:center;
   min-height:100vh;min-height:100svh;
-  padding:clamp(20px,4vh,52px) clamp(18px,4.4vw,74px);
-  padding-right:max(clamp(18px,4.4vw,74px),env(safe-area-inset-right));
+  padding:clamp(20px,4vh,52px) clamp(18px,3vw,48px);
 }
 .panel{
-  grid-column:2;justify-self:end;position:relative;
-  width:clamp(360px,32vw,430px);
-  margin-right:clamp(0px,19vw,380px);
+  /* el borde derecho queda anclado al 72% del ancho: el final del corredor
+     oscuro de la fotografía, justo antes de la cristalería */
+  grid-column:1;justify-self:end;position:relative;
+  width:clamp(340px,26vw,430px);
   padding:clamp(26px,2.6vw,36px) clamp(24px,2.4vw,34px) clamp(24px,2.4vw,32px);
   border-radius:var(--radius);
   border:1px solid var(--gold-soft);
@@ -91,7 +91,8 @@ body{
 .kicker{
   display:flex;align-items:center;gap:12px;
   margin:0 0 14px;color:var(--gold);
-  font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  font-weight:700;text-transform:uppercase;white-space:nowrap;
+  font-size:clamp(.57rem,.25vw + .38rem,.68rem);letter-spacing:.15em;
 }
 .kicker::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-soft),transparent)}
 h1{
@@ -154,33 +155,49 @@ button.enter:disabled{cursor:progress;filter:saturate(.75) brightness(.9)}
 .foot{
   margin:22px 0 0;padding-top:16px;
   border-top:1px solid rgba(255,255,255,.09);
-  color:#9e8f80;font-size:.74rem;line-height:1.6;letter-spacing:.01em;
+  color:#9e8f80;font-size:clamp(.68rem,.18vw + .5rem,.74rem);line-height:1.6;letter-spacing:.01em;
+  text-wrap:pretty;
 }
 input:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 ::selection{background:rgba(224,177,131,.34);color:#fff}
 
 /* ---------- adaptable ---------- */
+/* pantallas bajas: la tarjeta deja de estar centrada y la página puede crecer */
+@media (min-width:861px) and (max-height:760px){
+  .shell{align-items:start;padding-top:clamp(14px,2.6vh,28px);padding-bottom:clamp(14px,2.6vh,28px)}
+  .logo{width:min(176px,62%);margin-bottom:12px}
+  .kicker{margin-bottom:10px}
+  h1{font-size:clamp(1.72rem,2vw,2rem)}
+  .sub{margin:10px 0 16px;font-size:.86rem;line-height:1.5}
+  .panel{padding:20px 24px 18px}
+  .lab{margin-bottom:7px}
+  input[type=password],input[type=text]{height:50px}
+  button.enter{height:48px;margin-top:12px}
+  #error{min-height:0;margin-top:9px}
+  .foot{margin-top:16px;padding-top:12px}
+}
 @media (max-width:1180px){
-  .shell{padding-left:clamp(18px,3vw,40px)}
-  .panel{width:min(392px,100%);margin-right:clamp(0px,9vw,96px)}
+  .bg::after{background:
+    radial-gradient(40% 78% at 60% 50%,rgba(6,4,3,.80) 0%,rgba(6,4,3,.52) 56%,transparent 100%),
+    linear-gradient(90deg,rgba(8,5,4,.42) 0%,transparent 34%),
+    linear-gradient(0deg,rgba(7,4,3,.52) 0%,transparent 32%)}
 }
 @media (max-width:960px){
-  .panel{width:min(382px,100%);margin-right:0}
-  .bg::after{background:
-    radial-gradient(74% 94% at 74% 50%,rgba(6,4,3,.84) 0%,rgba(6,4,3,.60) 52%,rgba(6,4,3,.18) 84%,transparent 100%),
-    linear-gradient(0deg,rgba(7,4,3,.55) 0%,transparent 36%)}
-  .hero{object-position:36% 30%}
+  .shell{grid-template-columns:minmax(0,80%) minmax(0,1fr)}
+  .panel{width:min(348px,100%)}
+  .hero{object-position:46% 32%}
 }
 @media (max-width:860px){
   .stage{overflow:visible}
   .shell{display:block;min-height:0;padding:0 0 28px}
-  .bg{position:relative;height:40vh;min-height:280px;max-height:380px}
-  .hero{object-position:44% 14%}
-  .bg::after{background:linear-gradient(180deg,rgba(8,5,4,.22) 0%,rgba(8,5,4,.1) 42%,rgba(15,10,8,.95) 100%)}
+  .bg{position:relative;height:38vh;min-height:270px;max-height:360px}
+  .hero{object-position:center 22%}
+  .bg::after{background:linear-gradient(180deg,rgba(8,5,4,.20) 0%,rgba(8,5,4,.08) 40%,rgba(15,10,8,.96) 100%)}
   .panel{
     width:auto;margin:-54px clamp(14px,4vw,22px) 0;
     padding:26px 22px 24px;border-radius:22px;
   }
+  .panel::before{inset:-10px;border-radius:30px}
   .glow{display:none}
   .logo{width:min(200px,64%)}
   h1{font-size:clamp(1.95rem,7vw,2.4rem)}
@@ -234,7 +251,7 @@ input:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-
         <p id="error" role="alert" aria-live="assertive"></p>
       </form>
 
-      <p class="foot">Universidad de Burgos · Material de apoyo docente<br>Prof.ª Kerly Palacios</p>
+      <p class="foot">Prof.ª Kerly Palacios · Universidad de Burgos</p>
     </section>
   </div>
 </main>
